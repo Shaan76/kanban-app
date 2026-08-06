@@ -13,7 +13,7 @@ A full-stack MERN Kanban board with live drag-and-drop sync across multiple user
 - Room-based architecture — updates only broadcast to users viewing the same board
 - Presence tracking — see who else is currently viewing a board
 - Optimistic locking to handle concurrent edits (see below)
-- JWT authentication with bcrypt password hashing
+- - Full authentication flow — signup, login, and protected routes using JWT and bcrypt password hashing, with session persistence via localStorage
 - Full REST CRUD for boards, columns, and cards
 
 ## Handling Concurrent Edits
