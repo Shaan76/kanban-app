@@ -1,6 +1,8 @@
-﻿import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../store/authStore';
+import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { Toaster } from 'react-hot-toast';
+
 import useBoardStore from '../store/boardStore';
 import api from '../lib/api';
 
@@ -8,9 +10,16 @@ import api from '../lib/api';
 const REAL_BOARD_ID = '6a701dbf9de9295e3ac50390';
 
 function BoardPage() {
+  const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   const { columns, cards, initBoard, moveCard, leaveBoard } = useBoardStore();
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     async function loadBoard() {
       try {
@@ -43,8 +52,13 @@ function BoardPage() {
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <Toaster position="top-right" />
-      <h2>My Kanban Board</h2>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+    <h2>My Kanban Board</h2>
+    <div>
+      <span style={{ marginRight: '1rem' }}>Logged in as {user?.name}</span>
+      <button onClick={handleLogout} style={{ padding: '0.4rem 0.8rem' }}>Logout</button>
+    </div>
+  </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: 'flex', gap: '1rem' }}>
@@ -103,3 +117,4 @@ function BoardPage() {
 }
 
 export default BoardPage;
+
